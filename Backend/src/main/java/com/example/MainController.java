@@ -1,7 +1,6 @@
 package com.example;
 
 import java.sql.*;
-import java.sql.Connection;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -110,5 +109,29 @@ public class MainController implements Initializable {
         // Scene carrier flexibility
         sceneCarrier.prefWidthProperty().bind(mainPane.widthProperty().multiply(0.77));
         sceneCarrier.prefHeightProperty().bind(mainPane.heightProperty());
+    }
+
+    // =================================== CONNECT TO DATABASE
+    // ===================================
+    public static Connection connectToDatabase() throws SQLException, ClassNotFoundException {
+
+        String dbURL = "jdbc:mysql://localhost:3306/collegeManagementDEMO";
+        return DriverManager.getConnection(dbURL, "root", "");
+    }
+
+    public static ResultSet executeQuery(String query, Object... parameters)
+            throws SQLException, ClassNotFoundException {
+        try {
+            Connection connection = connectToDatabase();
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            for (int i = 0; i < parameters.length; i++) {
+                statement.setObject(i + 1, parameters[i]);
+            }
+
+            return statement.executeQuery();
+        } finally {
+            System.out.println("✅ Data read succesfuly.");
+        }
     }
 }

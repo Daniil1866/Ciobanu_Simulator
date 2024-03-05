@@ -1,16 +1,16 @@
 package com.example;
 
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
-public class StudentsController implements Initializable {
+public class StudentsController extends MainController {
     @FXML
     AnchorPane studentsParentPane;
     @FXML
@@ -26,8 +26,23 @@ public class StudentsController implements Initializable {
     @FXML
     TextArea viewArea;
 
-    public void displayStudents(){
-        viewArea.setText("Student#1: ");
+    public void displayStudents() throws ClassNotFoundException {
+        String selectAll = "select * from students";
+
+        try (ResultSet result = executeQuery(selectAll)) {
+            while (result.next()) {
+                String idnpStudent = result.getString("idnp_student");
+                String numeStudent = result.getString("nume_student");
+                String prenumeStudent = result.getString("prenume_student");
+                String grupaStudent = result.getString("grupa");
+                String specialitate = result.getString("specialitate");
+
+                viewArea.setText(idnpStudent);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
     }
 
     @Override
