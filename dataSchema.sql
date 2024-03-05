@@ -53,3 +53,7 @@ CREATE TABLE `top_10` (
   KEY `idnp_student` (`idnp_student`),
   CONSTRAINT `top_10_ibfk_1` FOREIGN KEY (`idnp_student`) REFERENCES `infoStudent` (`idnp_student`)
 )
+
+insert into infostudent
+    values
+     (2004504488970, 'Busuioc' , 'Andrei' , 'B-2221' , 'Baze de Date');
